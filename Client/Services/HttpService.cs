@@ -4,7 +4,8 @@ namespace Client.Services
 {
     public class HttpService : HttpClient
     {
-        static Uri _baseAddress =  new Uri("https://localhost:44346/"); // this is a local address for debugging, needs to be set to the correct URI for production
+        // Default local server address used for development. Update if your server listens on a different port.
+        static Uri _baseAddress =  new Uri("https://localhost:7139/");
         static HttpClient _client;
 
         static HttpService()
