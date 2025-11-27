@@ -1,0 +1,34 @@
+/* /Components/Footer.razor.rz.scp.css */
+footer[b-q8jjrmyw42] {
+    position: fixed;
+    bottom: 0;
+    height: 9%;
+    width: 100%;
+    background-color: #DC4405;
+}
+
+.footerContent[b-q8jjrmyw42] {
+    width: 30%;
+}
+
+.column[b-q8jjrmyw42] {
+    float: left;
+}
+
+.left[b-q8jjrmyw42] {
+    width: 33.33%;
+}
+
+.middle[b-q8jjrmyw42] {
+    width: 33.33%;
+}
+
+.right[b-q8jjrmyw42] {
+    width: 33.33%;
+}
+
+.row[b-q8jjrmyw42]:after {
+    content: "";
+    display: table;
+    clear: both;
+}

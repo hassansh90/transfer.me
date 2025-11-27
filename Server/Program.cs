@@ -3,9 +3,6 @@ using Server;
 
 var builder = WebApplication.CreateBuilder(args); //this line enumerates the secrets.json file stored in appdata
 
-var CosmosDBAPIKey = builder.Configuration["C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="];
-var CosmosConnectionString = builder.Configuration["https://localhost:8081"];
-
 // Read connection string from User Secrets (dev) or Environment Variables (prod)
 var cosmosConnectionString = builder.Configuration["CosmosDb:ConnectionString"] 
     ?? throw new InvalidOperationException("CosmosDb:ConnectionString not configured. Run: dotnet user-secrets set \"CosmosDb:ConnectionString\" \"<your-connection-string>\"");
@@ -47,8 +44,17 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+// Serve static files from Blazor WebAssembly (automatically included via ProjectReference)
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Fallback to index.html for Blazor client-side routing (must be after MapControllers)
+// This handles all non-API routes and serves index.html for client-side routing
+// The fallback automatically excludes routes that are already mapped (like /api/*)
+app.MapFallbackToFile("index.html");
 
 app.Run();
