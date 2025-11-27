@@ -10,7 +10,7 @@ obj/
 
 #ignore client secret file
 serviceDependencies.local.json.user
-
+serviceDependencies.local.json
 # User-specific files
 *.rsuser
 *.suo
