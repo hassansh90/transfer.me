@@ -27,14 +27,18 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      - name: dotnet publish (Server project only)
+        # Publish the Server project explicitly so the Blazor Client static web assets
+        # are integrated into the Server's `wwwroot` during publish. Publishing at
+        # the repository root can produce a nested `wwwroot/wwwroot` folder when
+        # multiple project outputs are collected into the same artifact.
+        run: dotnet publish Server/Server.csproj -c Release -o "./publish/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./publish/myapp
 
   deploy:
     runs-on: windows-latest
