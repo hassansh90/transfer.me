@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args); //this line enumerates the sec
 var CosmosDBAPIKey = builder.Configuration["C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="];
 var CosmosConnectionString = builder.Configuration["https://localhost:8081"];
 
+// Read connection string from User Secrets (dev) or Environment Variables (prod)
+var cosmosConnectionString = builder.Configuration["CosmosDb:ConnectionString"] 
+    ?? throw new InvalidOperationException("CosmosDb:ConnectionString not configured. Run: dotnet user-secrets set \"CosmosDb:ConnectionString\" \"<your-connection-string>\"");
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -18,7 +21,7 @@ builder.Services.AddTransient<IDownloadService, DownloadService>();
 builder.Services.AddTransient<Server.Logger.ILogger, Server.Logger.Logger>();
 builder.Services.AddSingleton<CosmosClient>(ServiceProvider =>
 {
-    return new CosmosClient("AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
+    return new CosmosClient(cosmosConnectionString);
 });
 
 builder.Services.AddCors(options =>
